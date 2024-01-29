@@ -1,0 +1,113 @@
+Table VaccineType {
+  VaccineTypeId int [pk]
+  Code varchar [unique]
+  ShortDescription varchar
+  VaccineTechnology varchar
+}
+
+
+Table Vaccine {
+  VaccineId int [pk]
+  Name varchar
+  Brand varchar
+  VaccineTypeId int [ref: > VaccineType.VaccineTypeId]
+}
+
+
+Table VaccinationCenter {
+  VaccinationCenterId int [pk]
+  Name varchar
+  Address varchar
+  PhoneNumber varchar
+  Email varchar
+  FaxNumber varchar
+  WebsiteAddress varchar
+  OpeningHours varchar
+  ClosingHours varchar
+  MaxVaccinesPerHour int
+}
+
+
+Table Employee {
+  EmployeeId int [pk]
+  FullName varchar
+  Role varchar
+}
+
+
+Table EmployeeVaccinationCenter {
+  EmployeeVaccinationCenterId int [pk]
+  EmployeeId int [ref: > Employee.EmployeeId]
+  VaccinationCenterId int [ref: > VaccinationCenter.VaccinationCenterId]
+}
+
+
+Table SNSUser {
+  SNSUserId int [pk]
+  Name varchar
+  BirthDate datetime
+  Sex varchar
+  PostalAddress varchar
+  PhoneNumber varchar
+  EmailAddress varchar
+  CitizenCardNumber varchar [unique]
+  SNSUserNumber varchar [unique]
+}
+
+
+Table ScheduledVaccination {
+  ScheduledVaccinationId int [pk]
+  SNSUserId int [ref: > SNSUser.SNSUserId]
+  VaccinationCenterId int [ref: > VaccinationCenter.VaccinationCenterId]
+  Date date
+  Time time
+  VaccineId int [ref: > Vaccine.VaccineId]
+  ArrivalStatus varchar
+}
+
+
+Table ArrivalRegistration {
+  ArrivalRegistrationId int [pk]
+  ScheduledVaccinationId int [ref: > ScheduledVaccination.ScheduledVaccinationId]
+  ArrivalTime datetime
+}
+
+
+Table Nurse {
+  NurseId int [pk]
+  FullName varchar
+}
+
+
+Table VaccineAdministration {
+  VaccineAdministrationId int [pk]
+  NurseId int [ref: > Nurse.NurseId]
+  ScheduledVaccinationId int [ref: > ScheduledVaccination.ScheduledVaccinationId]
+  LotNumber varchar
+  AdverseReactions varchar
+  AdministrationTime datetime
+}
+
+
+Table RecoveryRoom {
+  RecoveryRoomId int [pk]
+  Name varchar
+  Description varchar
+}
+
+
+Table UserRecoveryRoomStay {
+  UserRecoveryRoomStayId int [pk]
+  SNSUserId int [ref: > SNSUser.SNSUserId]
+  RecoveryRoomId int [ref: > RecoveryRoom.RecoveryRoomId]
+  EntryTime datetime
+  ExitTime datetime
+}
+
+
+Table VaccineCertificateRequest {
+  VaccineCertificateRequestId int [pk]
+  SNSUserId int [ref: > SNSUser.SNSUserId]
+  RequestTime datetime
+  CertificateStatus varchar
+}

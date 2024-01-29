@@ -1,0 +1,93 @@
+Table seccoes {
+  codigo integer [primary key]
+  nome varchar
+}
+
+
+Table funcionarios {
+  numero_identificativo integer [primary key]
+  bi varchar
+  nome varchar
+  especialidade varchar
+  seccao_id integer
+}
+
+
+
+Table pedidos_manutencao {
+  numero_sequencial integer [primary key]
+  data_hora_envio timestamp
+  seccao_que_pediu integer
+  funcionario_que_solicitou integer
+}
+
+
+Table atividades_manutencao {
+  numero integer [primary key]
+  nome varchar
+  data_inicio_estimada timestamp
+  data_fim_estimada timestamp
+  data_inicio_efetiva timestamp
+  data_fim_efetiva timestamp
+  funcionario_responsavel integer
+  pedido_associado integer
+}
+
+
+Table materiais {
+  codigo integer [primary key]
+  designacao varchar
+  unidade_medida varchar
+  categoria_material varchar
+}
+
+
+Table categorias_materiais {
+  nome varchar [primary key]
+}
+
+
+Table fornecedores {
+  numero_contribuinte varchar [primary key]
+  nome_empresa varchar
+  morada varchar
+  lista_telefones text[]
+}
+
+
+
+Table compras_materiais {
+  atividade_destino integer
+  fornecedor_contribuinte varchar
+  material_utilizado integer
+  quantidade_adquirida numeric
+  data_aquisicao timestamp
+  preco numeric
+}
+
+
+Ref: seccoes.codigo > funcionarios.seccao_id
+
+
+Ref: seccoes.codigo > pedidos_manutencao.seccao_que_pediu
+
+
+Ref: funcionarios.numero_identificativo > pedidos_manutencao.funcionario_que_solicitou
+
+
+Ref: funcionarios.numero_identificativo > atividades_manutencao.funcionario_responsavel
+
+
+Ref: pedidos_manutencao.numero_sequencial > atividades_manutencao.pedido_associado
+
+
+Ref: categorias_materiais.nome > materiais.categoria_material
+
+
+Ref: fornecedores.numero_contribuinte > compras_materiais.fornecedor_contribuinte
+
+
+Ref: atividades_manutencao.numero > compras_materiais.atividade_destino
+
+
+Ref: materiais.codigo > compras_materiais.material_utilizado
