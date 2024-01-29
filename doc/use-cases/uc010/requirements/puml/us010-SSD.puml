@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD)
+
+autonumber
+
+actor Administrator
+participant ":System" as System
+
+activate Administrator
+    Administrator -> System : starts the process of creating a new vaccine type
+    activate System
+        System --> Administrator : shows the Vaccine Technologies available and requests data
+    deactivate System
+
+    Administrator -> System : fills requested data (code, short description and vaccine technology)
+    activate System
+        System --> Administrator : validates and asks for confirmation
+    deactivate System
+
+    Administrator -> System : confirms
+    activate System
+        System --> Administrator : records the information and notifies the success of the operation
+    deactivate System
+deactivate Administrator
+
+@enduml

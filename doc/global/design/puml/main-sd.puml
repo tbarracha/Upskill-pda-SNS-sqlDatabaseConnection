@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+participant ":Main" as Main
+participant ":Bootstrap" as Bootstrap
+participant ":MainMenu" as MainMenu
+participant "drawer:Drawer" as drawer
+participant Context
+participant "context:Context" as context
+
+activate Main
+    Main --> Bootstrap** : create
+    activate Bootstrap
+        Bootstrap --> Main
+    deactivate Bootstrap
+    Main -> Bootstrap : run()
+    activate Bootstrap
+        Bootstrap -> drawer**
+        activate drawer
+            drawer --> Bootstrap : drawer
+        deactivate drawer
+        Bootstrap -> MainMenu**
+        activate MainMenu
+            MainMenu --> Bootstrap : mainMenu
+        deactivate MainMenu
+        Bootstrap -> Context : getInstance()
+        activate Context
+            Context -> Context : getInstance()
+            Context --> Bootstrap : context
+        deactivate Context
+        Bootstrap -> context : setDrawer(drawer)
+        activate context
+        deactivate context
+        Bootstrap -> context : setMainMenu(mainMenu)
+        activate context
+        deactivate context
+        Bootstrap -> drawer : draw(mainMenu)
+        activate drawer
+        deactivate drawer
+        Bootstrap --> Main
+    deactivate Bootstrap
+
+@enduml

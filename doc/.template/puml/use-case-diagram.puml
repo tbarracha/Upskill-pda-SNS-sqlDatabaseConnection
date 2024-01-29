@@ -1,0 +1,35 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+'skinparam shadowing false
+
+skinparam rectangle{
+    BorderColor yellow
+}
+
+'title Use Case Diagram Example
+
+left to right direction
+
+rectangle "System Actors" as actors {
+    actor Freelancer
+    actor "Organization\nEmployee" as Employee
+}
+
+note right of Freelancer
+    Actor identified but still
+    no concrete use cases.
+end note
+
+rectangle "Use Cases" as usecases{
+    usecase "UC001 - Create a Task" as UC001
+    Employee --> UC001
+}
+
+note right of actors
+    Rectangles and Titles are for
+    demonstration purposes only.
+    Omit them on your diagrams.
+end note
+
+@enduml

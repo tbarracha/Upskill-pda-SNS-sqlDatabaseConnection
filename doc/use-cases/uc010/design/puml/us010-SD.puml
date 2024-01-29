@@ -1,0 +1,84 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Create Vaccine Type
+
+autonumber
+
+actor Administrator
+participant ":CreateVaccineTypeUI" as ui
+participant ":CreateVaccineTypeController" as ctrl
+participant Repositories
+participant "vacTechRepo : VaccineTechRepository" as vacTechRepo
+participant "vacTypeRepo : VaccineTypeRepository" as vacTypeRepo
+participant "vacType : VacType" as vacType
+
+activate Administrator
+
+    Administrator -> ui : starts the process of creating a new vaccine type
+    activate ui
+        ui -> ctrl** : create()
+        ui -> ctrl : getVaccineTechs()
+        activate ctrl
+            ctrl -> Repositories : getVaccineTechRepository()
+            activate Repositories
+                Repositories -> Repositories : vaccineTechRepository()
+                Repositories-->ctrl : vacTechRepo
+            deactivate Repositories
+            ctrl -> vacTechRepo : getVaccineTechs()
+            activate vacTechRepo
+                vacTechRepo -> vacTechRepo : getVaccineTechs()
+                vacTechRepo --> ctrl : vaccineTechList
+            deactivate vacTechRepo
+            ctrl --> ui : vaccineTechList
+            ui --> Administrator : shows the Vaccine Technologies available and requests data
+        deactivate ctrl
+    deactivate ui
+
+    Administrator -> ui : fills requested data (code, short description and vaccine technology)
+    activate ui
+        ui -> ctrl : createVaccineType(code, shortDesc, vacTechName)
+        activate ctrl
+            ctrl -> Repositories : getVaccineTypeRepository()
+            activate Repositories
+                Repositories -> Repositories : vaccineTypeRepository()
+                Repositories --> ctrl : vacTypeRepo
+            deactivate Repositories
+            ctrl -> vacTechRepo : getVacTechByName(vacTechName)
+            activate vacTechRepo
+                vacTechRepo --> ctrl : vacTech
+            deactivate vacTechRepo
+            ctrl -> vacTypeRepo : createVaccineType(code, shortDesc, vacTech)
+            activate vacTypeRepo
+                vacTypeRepo -> vacType** : create()
+                activate vacType
+                    vacType -> vacType : localValidation()
+                    vacType --> vacTypeRepo : vacType
+                deactivate vacType
+                vacTypeRepo -> vacTypeRepo : globalValidation(vacType)
+                vacTypeRepo --> ctrl : vacType
+            deactivate vacTypeRepo
+            ctrl --> ui : vacType
+        deactivate ctrl
+        ui --> Administrator : validates and asks for confirmation
+    deactivate ui
+
+    Administrator -> ui : confirms
+    activate ui
+        ui -> ctrl : save()
+        activate ctrl
+            ctrl -> vacTypeRepo : save(vacType)
+            activate vacTypeRepo
+                vacTypeRepo -> vacTypeRepo : globalValidation(vacType)
+                vacTypeRepo -> vacTypeRepo : add(vacType)
+                vacTypeRepo --> ctrl : success
+            deactivate vacTypeRepo
+            ctrl --> ui : success
+        deactivate ctrl
+        ui --> Administrator : records the information and notifies the success of the operation
+    deactivate ui
+deactivate Administrator
+
+@enduml

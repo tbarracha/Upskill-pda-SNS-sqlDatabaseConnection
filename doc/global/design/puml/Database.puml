@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ConnectionFactory {
+-connectionPoolCount
+-connectionPoolRequest
++getConnectionFactory()
++getDatabaseConnection() : DatabaseConnection
+}
+
+class DatabaseConnection {
++DatabaseConnection(url, username, password)
++getConnection() : Connection
++registerError(SQLException error)
++getLastError() : SQLException
+}
+
+DatabaseConnection "*" <-- "1" ConnectionFactory
+
+class OracleDataSource{
++setURL(url)
++getConnection(username, password) : Connection
+}
+class Connection {
+}
+class SQLException {
+}
+
+DatabaseConnection "1" -up-> "1" OracleDataSource
+DatabaseConnection "1" -up-> "*" Connection
+OracleDataSource ..> Connection
+DatabaseConnection ..> SQLException
+
+@enduml

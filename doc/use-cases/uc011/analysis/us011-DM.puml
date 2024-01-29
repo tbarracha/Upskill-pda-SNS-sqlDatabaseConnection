@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title US011 - Register vaccine
+
+class VaccineTechnology {
+    name
+    description
+}
+
+class VaccineType {
+    code
+    shortDescription
+}
+
+class Vaccine {
+    id
+    name
+}
+
+class Brand {
+    name
+}
+
+'VaccineTechnology -down-Vaccine
+VaccineTechnology "1   " - "   *" VaccineType : is of <
+VaccineType "1" - " *  " Vaccine : ""
+Vaccine "*" -- "1" Brand : manufactures <
+
+@enduml

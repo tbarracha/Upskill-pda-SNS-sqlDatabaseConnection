@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Role {
+name
+}
+
+class User {
+code
+}
+
+class Email {
+address
+}
+
+class Password {
+password
+}
+
+User "1" -up- "1" Email
+User "1" -up- "1" Password
+
+class Employee {
+}
+
+class SNSUser {
+}
+
+User "*" -left- "1" Role
+User "1" -down- "0..1" Employee
+User "1" -down- "0..1" SNSUser
+
+class Session {
+logIn
+logOut
+}
+
+User "1" - "*" Session
+
+class Facility {
+    name
+    address
+    phone
+    e-mail
+    fax
+    website
+    openingHour
+    closingHour
+    maxVaccinesPerHour
+}
+
+class HealthcareCentre {
+}
+
+class VaccinationCentre {
+}
+
+VaccinationCentre -up-|> Facility
+HealthcareCentre -up-|> Facility
+
+Session "*" -- "1" Facility
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class VaccineTech {
+name
+description
+}
+
+class VaccineType {
+code
+shortDescription
+}
+
+class Vaccine {
+id
+name
+}
+
+class Brand {
+name
+}
+
+
+VaccineTech "1" - "*" VaccineType
+VaccineType "1" - "*" Vaccine
+Vaccine "*" -down- "1" Brand
+
+@enduml

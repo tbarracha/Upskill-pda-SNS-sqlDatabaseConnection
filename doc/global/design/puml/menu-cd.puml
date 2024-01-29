@@ -1,0 +1,93 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Runnable {
+    run()
+}
+
+class Menu {
+-id
+-option
+-text
++Menu(parent, id, option, text, ui)
+
++addMenuItem(menu)
++addPermission(role)
+
++option()
++caption()
++parent()
+
++menuItems()
++menuItem(option)
+
++execute()
+
++isValidMenuItemOption(option)
++isAllowedTo(user)
++isFinal()
+}
+
+class Role {
+-name
++Role(name)
++name()
+}
+
+class Permission {
+-role
++Permission(role)
++role()
+}
+
+class UI {
+}
+note left
+All user interfaces extend this class
+end note
+
+class Scanner {
+}
+
+class LoginUI {
+}
+
+class MenuDrawer{
+}
+
+note right
+We can have many  drawers
+as long as they implement Drawable
+end note
+
+interface Drawable {
+draw(menu)
+}
+
+class User {
+User(role, email, password)
+}
+
+class Email {
+}
+
+class Password{
+}
+
+Runnable <|.. Menu
+Runnable <|.. UI
+UI "1" -> "1" Scanner
+Menu "*" <- "1" Menu : menuItems
+Menu "1" --> "0..1" UI
+Menu "1" --> "*" Permission
+Permission "1" --> "1" Role
+LoginUI -up-|> UI
+LogoutUI -up-|> UI
+CreateUserUI -up-|> UI
+MenuDrawer -down.|> Drawable
+Menu <.. MenuDrawer
+User "*" -left-> "1" Role
+User "1" -up-> "1" Email
+User "1" -up-> "1" Password
+
+@enduml

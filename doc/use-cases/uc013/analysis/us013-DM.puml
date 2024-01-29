@@ -1,0 +1,36 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title US013 - Register vaccination centre
+
+class Facility {
+    name,
+    address,
+    phone,
+    e-mail,
+    fax,
+    website,
+    openingHour
+    closingHour
+    maxVaccinesPerHour
+}
+
+class HealthcareCentre {
+}
+
+class VaccinationCentre {
+}
+
+VaccinationCentre -up-|> Facility
+HealthcareCentre -up-|> Facility
+
+@enduml

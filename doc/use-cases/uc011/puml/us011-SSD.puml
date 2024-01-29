@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title US011 - Register new vaccine (SSD)
+
+autonumber
+
+actor Administrator
+participant ":System" as System
+
+activate Administrator
+    Administrator -> System : starts the process of creating a new vaccine
+    activate System
+        System --> Administrator : shows the Vaccine Types available and requests one of the values
+    deactivate System
+
+    Administrator -> System : chooses one of the vaccine types
+    activate System
+        System --> Administrator : shows the manufaturers and requests to choose one
+    deactivate System
+
+    Administrator -> System : chooses one of the manufacturers
+    activate System
+        System --> Administrator : validates and asks for confirmation
+    deactivate System
+
+    Administrator -> System : asks to define a name for the vaccine
+    activate System
+        System --> Administrator : validates and asks for confirmation
+    deactivate System
+
+    Administrator -> System : confirms
+    activate System
+        System --> Administrator : records the information and notifies the success of the operation
+    deactivate System
+deactivate Administrator
+
+@enduml

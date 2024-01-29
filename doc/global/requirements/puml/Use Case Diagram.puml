@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+'top to bottom direction
+
+actor "System Administrator" as Adm
+actor "Receptionist" as Recep
+actor "SNS User" as User
+actor "Nurse" as Nurse
+
+usecase "UC010 - Register vaccine type" as UC010
+usecase "UC011 - Register vaccine" as UC011
+usecase "UC012 - List all vaccines" as UC012
+usecase "UC013 - Register vaccination center" as UC013
+usecase "UC014 - Register employee" as UC014
+usecase "UC015 - List employees with a role" as UC015
+
+usecase "UC020 - Register SNS user" as UC020
+usecase "UC021 - Schedule vaccination" as UC021
+usecase "UC022 - Register SNS user arrival" as UC022
+
+usecase "UC030 - Schedule vaccination" as UC030
+
+usecase "UC040 - Consult users waiting" as UC040
+usecase "UC041 - Record vaccine administration" as UC041
+
+Adm -down-> UC010
+Adm -down-> UC011
+Adm -down-> UC012
+Adm -down-> UC013
+Adm -down-> UC014
+Adm -down-> UC015
+
+Recep -down-> UC020
+Recep -down-> UC021
+Recep -down-> UC022
+
+User -down-> UC030
+
+Nurse -down-> UC040
+Nurse -down-> UC041
+
+@enduml

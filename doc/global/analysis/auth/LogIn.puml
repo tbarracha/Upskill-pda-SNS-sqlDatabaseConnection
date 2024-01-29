@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "Unauthenticated User" as User
+participant ":LoginUI" as ui
+participant ":LoginController" as ctrl
+participant ":FacilityRepository" as facilityRepo
+participant "mapper:Mapper" as mapper
+note over facilityRepo : This repository is obtained as\nspecified in ...
+participant ":UserRepository" as userRepo
+participant "user:User" as user
+participant "session : Session" as session
+participant "context : Context" as context
+note over context : Context is obtained as\nspecified in ...
+
+User -> ui : Authentication Request
+activate ui
+    ui -> ctrl : facilityList()
+    activate ctrl
+        ctrl -> facilityRepo : facilityList()
+        activate facilityRepo
+            facilityRepo --> ctrl : facilityList
+        deactivate facilityRepo
+        ctrl -> mapper : facilityListToDTO(facilityList)
+        activate mapper
+            mapper --> ctrl : facilityListDTO
+        deactivate mapper
+        ctrl --> ui : facilityListDTO
+    deactivate ctrl
+ui --> User : Shows facilities and asks for authentication data
+deactivate ui
+
+User -> ui : email, password, facility id
+activate ui
+ui -> ctrl : login(email, password, facilityId)
+activate ctrl
+note over ctrl
+facilityId is yet to be defined
+it can be one of the Facility attributes...
+... or will we create an ID?
+end note
+ctrl -> userRepo : userByEmail(email)
+activate userRepo
+    userRepo --> ctrl : user
+deactivate userRepo
+ctrl -> user : hasPassword(password)
+activate user
+    user --> ctrl : true/false
+deactivate user
+ctrl -> facilityRepo : facilityById(facilityId)
+activate facilityRepo
+    facilityRepo --> ctrl : facility
+deactivate facilityRepo
+ctrl -> session** : create(user, facility)
+ctrl -> context : setSession(session)
+ctrl --> ui : loggedIn
+ui -->  User : Logged in
+deactivate ui
+
+@enduml
