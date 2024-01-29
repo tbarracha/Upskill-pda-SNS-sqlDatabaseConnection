@@ -1,11 +1,15 @@
 # Upskill SNS PDA SQL Database
-Principles of software development project - Use Case: <br>
+
+## Solution Document
+[Base de Dados - Avaliação - Upskill - Tiago Barracha.pdf](https://github.com/tbarracha/Upskill-pda-SNS-sqlDatabaseConnection/files/14083845/Base.de.Dados.-.Avaliacao.-.Upskill.-.Tiago.Barracha.pdf)
+
+## Use Case: <br>
 
 US014 - As administrator, I want to register an employee. [Priority: Low] <br>
  <br>
 US015 - As administrator, I want to get a list of employees with a given function/role. [Priority: Medium] <br>
- <br>
-### Preamble
+
+## Preamble
 This project presents a (simulated) context in which DGS, a state-funded Portuguese healthcare
 system, intends to explore and validate an application to manage the Covid-19 vaccination process.
 To this end, the company decided to start the development of a new software product (prototype) in
