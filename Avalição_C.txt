@@ -1,3 +1,5 @@
+https://dbdiagram.io/d/BD-Avaliacao-a-65b0bedeac844320ae992a56
+
 Table VaccineType {
   VaccineTypeId int [pk]
   Code varchar [unique]
