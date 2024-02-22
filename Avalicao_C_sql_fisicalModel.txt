@@ -1,0 +1,65 @@
+CREATE TABLE seccoes (
+  codigo INTEGER PRIMARY KEY,
+  nome VARCHAR(50)
+);
+
+CREATE TABLE funcionarios (
+  numero_identificativo INTEGER PRIMARY KEY,
+  bi VARCHAR(50),
+  nome VARCHAR(50),
+  especialidade VARCHAR(50),
+  seccao_id INTEGER,
+  FOREIGN KEY (seccao_id) REFERENCES seccoes(codigo)
+);
+
+CREATE TABLE pedidos_manutencao (
+  numero_sequencial INTEGER PRIMARY KEY,
+  data_hora_envio TIMESTAMP,
+  seccao_que_pediu INTEGER,
+  funcionario_que_solicitou INTEGER,
+  FOREIGN KEY (seccao_que_pediu) REFERENCES seccoes(codigo),
+  FOREIGN KEY (funcionario_que_solicitou) REFERENCES funcionarios(numero_identificativo)
+);
+
+CREATE TABLE atividades_manutencao (
+  numero INTEGER PRIMARY KEY,
+  nome VARCHAR(50),
+  data_inicio_estimada TIMESTAMP,
+  data_fim_estimada TIMESTAMP,
+  data_inicio_efetiva TIMESTAMP,
+  data_fim_efetiva TIMESTAMP,
+  funcionario_responsavel INTEGER,
+  pedido_associado INTEGER,
+  FOREIGN KEY (funcionario_responsavel) REFERENCES funcionarios(numero_identificativo),
+  FOREIGN KEY (pedido_associado) REFERENCES pedidos_manutencao(numero_sequencial)
+);
+
+CREATE TABLE materiais (
+  codigo INTEGER PRIMARY KEY,
+  designacao VARCHAR(50),
+  unidade_medida VARCHAR(50),
+  categoria_material VARCHAR(50)
+);
+
+CREATE TABLE categorias_materiais (
+  nome VARCHAR(50) PRIMARY KEY
+);
+
+CREATE TABLE fornecedores (
+  numero_contribuinte VARCHAR(50) PRIMARY KEY,
+  nome_empresa VARCHAR(50),
+  morada VARCHAR(50),
+  lista_telefones VARCHAR(50) -- You may need to adjust the data type for lista_telefones based on your requirements
+);
+
+CREATE TABLE compras_materiais (
+  atividade_destino INTEGER,
+  fornecedor_contribuinte VARCHAR(50),
+  material_utilizado INTEGER,
+  quantidade_adquirida NUMERIC,
+  data_aquisicao TIMESTAMP,
+  preco NUMERIC,
+  FOREIGN KEY (atividade_destino) REFERENCES atividades_manutencao(numero),
+  FOREIGN KEY (fornecedor_contribuinte) REFERENCES fornecedores(numero_contribuinte),
+  FOREIGN KEY (material_utilizado) REFERENCES materiais(codigo)
+);
